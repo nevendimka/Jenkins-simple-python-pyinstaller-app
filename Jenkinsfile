@@ -9,12 +9,13 @@ pipeline {
         }
          stage('Install Dependencies') {
             steps {
-                sh 'sudo pip install pytest'
+                sh 'pip install pytest'
             }
         }
         stage('Test') {
             steps {
-                sh 'pytest --junit-xml test-reports/results.xml sources/test_calc.py'
+//Add pytest to PATH and run tests
+                sh 'export PATH=$PATH:/var/lib/jenkins/.local/bin && pytest --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
