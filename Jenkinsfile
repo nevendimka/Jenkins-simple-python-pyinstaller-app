@@ -26,9 +26,23 @@ pipeline {
                 }
             }
         }
+        // stage('Install PyInstaller') {
+        //     steps {
+        // Add the directory to PATH and install PyInstaller
+        //        sh 'pip install pyinstaller'
+        //     }        
+        //}
+         stage('Setup Virtual Environment') {
+            steps {
+                // Create and activate virtual environment
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate && pip install pytest pyinstaller'
+            }
+        }   
          stage('Deliver') {
             steps {
-                sh "pyinstaller --onefile sources/add2vals.py"
+        // Activate virtual environment and run PyInstaller
+                sh ". venv/bin/activate && pyinstaller --onefile sources/add2vals.py"
             }
             post {
                 success {
