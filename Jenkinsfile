@@ -26,23 +26,23 @@ pipeline {
                 }
             }
         }
-        // stage('Install PyInstaller') {
-        //     steps {
-        // Add the directory to PATH and install PyInstaller
-        //        sh 'pip install pyinstaller'
-        //     }        
-        //}
-         stage('Setup Virtual Environment') {
-            steps {
+         stage('Install PyInstaller') {
+             steps {
+         //Add the directory to PATH and install PyInstaller
+                 sh 'pip install pyinstaller'
+             }        
+        }
+        // stage('Setup Virtual Environment') {
+        //    steps {
                 // Create and activate virtual environment
-                sh 'python3 -m venv venv'
-                sh '. venv/bin/activate && pip install pytest pyinstaller'
-            }
-        }   
+        //        sh 'python3 -m venv venv'
+        //        sh '. venv/bin/activate && pip install pytest pyinstaller'
+        //    }
+        //}   
          stage('Deliver') {
             steps {
-        // Activate virtual environment and run PyInstaller
-                sh ". venv/bin/activate && pyinstaller --onefile sources/add2vals.py"
+        // Run PyInstaller with the correct PATH
+                sh "export PATH=$PATH:/var/lib/jenkins/.local/bin && pyinstaller --onefile sources/add2vals.py"
             }
             post {
                 success {
