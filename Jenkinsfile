@@ -1,7 +1,12 @@
 pipeline {
     agent any 
     stages {
-        stage('Build') { 
+         stage('Install Dependencies') {
+            steps {
+                sh 'pip install pytest'
+            }
+        }
+         stage('Build') { 
             steps {
                 sh 'python3 -m py_compile sources/add2vals.py sources/calc.py' 
                 stash(name: 'compiled-results', includes: 'sources/*.py*') 
